@@ -1,20 +1,26 @@
 import { Container, Box } from '@mui/material';
 import PropTypes from 'prop-types';
 
-import Day from './Day';
-
 import organizeWeather from '../utils/organizeWeather';
 
+import Day from './Day';
+
 const Weather = ({ weather }) => {
-    const days = organizeWeather(weather);
+    const organizedWeather = organizeWeather(weather);
 
     return (
-        <Container maxWidth="md" sx={{ marginTop: 4 }}>
-            {Object.entries(days).map(([day, hours], index) => (
-                <Box key={index} mb={4}>
-                    <Day day={day} dayTemp={hours} />
-                </Box>
-            ))}
+        <Container>
+            {Object.entries(organizedWeather).map(
+                ([day, dayWeather], index) => (
+                    <Box key={index} mb={4}>
+                        <Day
+                            day={day}
+                            dayOfWeek={dayWeather.dayOfWeek}
+                            dayWeather={dayWeather.data}
+                        />
+                    </Box>
+                )
+            )}
         </Container>
     );
 };

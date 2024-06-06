@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Container, Box, CircularProgress, Alert } from '@mui/material';
 
 import Weather from './Weather';
+
 import getWeather from '../apis/getWeather';
 
 const WeatherContainer = () => {

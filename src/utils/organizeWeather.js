@@ -1,3 +1,5 @@
+const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
 const organizeWeather = (weather) => {
     const { time, temperature_2m } = weather.hourly;
     const days = {};
@@ -6,20 +8,20 @@ const organizeWeather = (weather) => {
     time.forEach((hour, index) => {
         const now = new Date(hour);
 
-        // Day
-        const day = now.getDate();
-        let hourOfDay = now.getHours();
+        const day = now.getDate(); // 1-31
+        const dayOfWeek = weekDays[now.getDay()]; // 0-6
+        let hours = now.getHours();
         let minutes = now.getMinutes();
         let seconds = now.getSeconds();
 
-        hourOfDay = hourOfDay < 10 ? `0${hourOfDay}` : hourOfDay;
+        hours = hours < 10 ? `0${hours}` : hours;
         minutes = minutes < 10 ? `0${minutes}` : minutes;
         seconds = seconds < 10 ? `0${seconds}` : seconds;
 
-        const formattedHour = `${hourOfDay} : ${minutes} : ${seconds}`;
         const temp = temperature_2m[index];
         const formattedTemp = temp.toFixed(1);
 
+        // Check the old and the new temperatures
         let arrow;
         if (oldTemp) {
             if (oldTemp > temp) {
@@ -27,22 +29,22 @@ const organizeWeather = (weather) => {
             } else if (oldTemp < temp) {
                 arrow = 'up';
             } else {
-                arrow = 'equal';
+                arrow = 'same';
             }
         } else {
             arrow = 'none';
         }
 
         const hourAndTemp = {
-            hour: formattedHour,
+            hour: `${hours}:${minutes}:${seconds}`,
             temp: formattedTemp,
             arrow: arrow
         };
 
         if (!days[day]) {
-            days[day] = [];
+            days[day] = { dayOfWeek, data: [hourAndTemp] };
         } else {
-            days[day].push(hourAndTemp);
+            days[day].data.push(hourAndTemp);
         }
 
         oldTemp = temp;

@@ -9,21 +9,28 @@ import {
 
 import PropTypes from 'prop-types';
 
-const Hour = ({ hour }) => {
+const Hour = ({ hourData }) => {
     const getWeatherIcon = (temp) => {
-        if (temp < 10) return <BsFillCloudRainHeavyFill color="black" />;
-        if (temp < 15) return <BsCloudRain color="white" />;
-        if (temp < 20) return <BsSun color="white" />;
-        return <BsEmojiSunglasses color="yellow" />;
+        if (temp < 10) {
+            return <BsFillCloudRainHeavyFill size={32} color="black" />;
+        } else if (temp < 15) {
+            return <BsCloudRain size={32} color="white" />;
+        } else if (temp < 20) {
+            return <BsSun size={32} color="white" />;
+        } else {
+            return <BsEmojiSunglasses size={32} color="yellow" />;
+        }
     };
 
-    const getTrendIcon = (up) => {
-        if (up === 'up') return <FaLongArrowAltUp color="green" />;
-        if (up === 'down') return <FaLongArrowAltDown color="red" />;
-        if (up === 'equal') return <FaEquals color="white" />;
-        return null;
+    const getTrendIcon = (arrow) => {
+        if (arrow === 'up') {
+            return <FaLongArrowAltUp size={16} color="green" />;
+        } else if (arrow === 'down') {
+            return <FaLongArrowAltDown size={16} color="red" />;
+        } else {
+            return <FaEquals size={16} color="white" />;
+        }
     };
-
     return (
         <Paper
             elevation={3}
@@ -35,18 +42,23 @@ const Hour = ({ hour }) => {
             }}
         >
             <Box display="flex" flexDirection="column" alignItems="center">
-                <Typography variant="h6">{hour.hour}</Typography>
+                <Typography variant="h6">{hourData.hour}</Typography>
                 <Box display="flex" alignItems="center" mt={1}>
-                    <Box mr={1}>{getWeatherIcon(hour.temp)}</Box>
-                    <Box mx={1}>{getTrendIcon(hour.up)}</Box>
-                    <Typography variant="body1">{hour.temp}°C</Typography>
+                    <Box mr={1}>{getWeatherIcon(hourData.temp)}</Box>
+                    <Box mx={1}>{getTrendIcon(hourData.arrow)}</Box>
+                    <Typography variant="body1">{hourData.temp}°C</Typography>
                 </Box>
             </Box>
         </Paper>
     );
 };
+
 Hour.propTypes = {
-    hour: PropTypes.object.isRequired
+    hourData: PropTypes.shape({
+        hour: PropTypes.string.isRequired,
+        temp: PropTypes.string.isRequired,
+        arrow: PropTypes.string.isRequired
+    }).isRequired
 };
 
 export default Hour;

@@ -1,6 +1,5 @@
 import { AppBar, Toolbar, Typography, IconButton, Box } from '@mui/material';
 import { FaHome } from 'react-icons/fa';
-
 import PropTypes from 'prop-types';
 
 const Header = ({ title }) => {
